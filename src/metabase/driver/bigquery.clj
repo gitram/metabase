@@ -116,6 +116,7 @@
    {:pre [client (seq project-id) (seq query-string)]}
    (let [request (doto (QueryRequest.)
                    (.setTimeoutMs (* query-timeout-seconds 1000))
+                   (.useLegacySql (not (.contains query-string "--nolegacy")))
                    (.setQuery query-string))]
      (google/execute (.query (.jobs client) project-id request)))))
 
